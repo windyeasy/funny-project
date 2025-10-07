@@ -3,6 +3,7 @@ const fetch = require("node-fetch")
 const cheerio = require('cheerio')
 const nodemailer = require("nodemailer");
 const config = require("./config")
+const cron  = require("node-cron")
 
 const DEFAULT_JOKES = [
   "为什么程序员总是分不清万圣节和圣诞节？因为 Oct 31 == Dec 25",
@@ -99,4 +100,9 @@ async function sendEmail() {
 
 }
 
-sendEmail()
+cron.schedule("0 9 * * *", () => {
+  sendEmail()
+}, {
+  timezone: "Asia/Shanghai"
+})
+
